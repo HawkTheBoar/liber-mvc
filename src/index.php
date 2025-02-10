@@ -8,6 +8,7 @@ require 'models/http/GETMessage.php';
 
 // Require other Routes
 require 'routes/auth.php';
+require 'routes/admin.php';
 // Create a new Router instance
 $router = Router::getInstance();
 

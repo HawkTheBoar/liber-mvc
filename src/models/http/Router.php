@@ -3,16 +3,18 @@ class Router {
     private array $routes = [];
     private static $router;
     private $base_path = '';
-    public static function getInstance(){
+    public static function getInstance(): Router{
         if(self::$router == null){
             self::$router = new Router();
         }
         self::$router->base_path = '';
         return self::$router;
     }
-    public function redirect(string $path, int $statusCode, ...$messages){
-        header("Location: $path", true, $statusCode);
-        exit();
+    public function redirect(string $path, int $statusCode = 301, ...$messages){
+        $getreq = GetMessage::formGetParams($messages);
+        header("HTTP/1.1 $statusCode");
+        header("Location: $path" . $getreq);
+        return;
     }
     public function redirectByName(string $routeName, int $statusCode){
 

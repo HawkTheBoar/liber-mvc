@@ -13,7 +13,8 @@ class GetMessage{
         return str_replace(' ', '+', $this->name . '=' . $this->content);
     }
     public static function formGetParams(...$messages){
-        $messages[0] = '?' . $messages[0];
+        $messages = $messages[0];
+        $messages[0]->name = '?' . $messages[0]->name;
         return implode('&', $messages);
     }
 }

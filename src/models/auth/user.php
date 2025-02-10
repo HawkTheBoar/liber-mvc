@@ -1,7 +1,8 @@
 <?php
-include_once("../connect.php");
-include_once("/utils/helpers.php");
-include_once("/utils/auth/gen_hash.php");
+require_once("models/pdoconnect.php");
+require_once("utils/helpers.php");
+require_once("utils/gen_hash.php");
+
 class AuthenticatedUser extends User{
     function __construct($username, $email, $role){
         parent::__construct($email);
@@ -28,9 +29,6 @@ class User{
         $this->username = 'unknown';
         $this->email = $email;
         $this->role = 'unauthenticated';
-    }
-    static function setConfig($config){
-        self::$config = $config;
     }
     static function GetUserFromSession(): AuthenticatedUser | User | null{
 
@@ -65,8 +63,7 @@ class User{
             throw new InvalidArgumentException('Invalid email format');
         }
 
-        $usersTable = self::$config['users']['name'];
-        $stmt = self::$pdo->prepare("SELECT * FROM $usersTable WHERE email = ?");
+        $stmt = self::$pdo->prepare("SELECT * FROM users WHERE email = ?");
         $stmt->bindParam(1, $this->email);
         $stmt->execute();
         $res = $stmt->fetch();
@@ -96,16 +93,12 @@ class User{
 class UserFactory{
     private static $pdo;
     private static $config;
-    public static function setConfig($config){
-        self::$config = $config;
-    }
+    
     public static function CreateUser(string $username, string $email, string $password, $role = 'user'): User | AuthenticatedUser{
-        $usersTable = self::$config['users']['name'];
         if(self::$pdo === null){
             self::$pdo = pdoconnect::getInstance();
         }
-        $fields = self::$config['users']['fields'];
-        $stmt = self::$pdo->prepare("INSERT INTO $usersTable (username, email, password, role) VALUES (?, ?, ?, ?)");
+        $stmt = self::$pdo->prepare("INSERT INTO users (username, email, password, role) VALUES (?, ?, ?, ?)");
         $hash = gen_hash($password);
         $stmt->bindParam(1, $username);
         $stmt->bindParam(2, $email);
@@ -119,6 +112,3 @@ class UserFactory{
         return self::CreateUser($username, $email, $password, 'admin');
     }
 }
-
-User::setConfig($config);
-UserFactory::setConfig($config);

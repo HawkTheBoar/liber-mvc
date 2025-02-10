@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS category (
     name VARCHAR(255) NOT NULL,
     description TEXT NOT NULL,
     parent_id INT,
-    FOREIGN KEY (parent_id) REFERENCES category(id),
+    FOREIGN KEY (parent_id) REFERENCES categories(id),
     PRIMARY KEY (id)
 );
 CREATE TABLE IF NOT EXISTS products (
@@ -27,5 +27,5 @@ CREATE TABLE IF NOT EXISTS products (
     description TEXT NOT NULL,
     price DECIMAL(10, 2) NOT NULL,
     PRIMARY KEY (id),
-    FOREIGN KEY (category_id) REFERENCES category(id)
+    FOREIGN KEY (category_id) REFERENCES categories(id)
 );
