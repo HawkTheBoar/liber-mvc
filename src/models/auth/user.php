@@ -46,8 +46,11 @@ class User{
     function Login(){
         $_SESSION['user'] = $this;
     }
-    function getIsAuthenticated(): bool{
+    function IsAuthenticated(): bool{
         return $this->isAuthenticated;
+    }
+    function IsAdmin(): bool{
+        return $this->role === 'admin';
     }
     /**
      * Authenticates the user

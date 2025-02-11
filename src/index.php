@@ -1,11 +1,11 @@
 <?php
-require 'models/http/Request.php';
-require 'models/http/Route.php';
-require 'models/http/Router.php';
-require 'middleware/authenticate.php';
-require 'middleware/logRequest.php';
-require 'models/http/GETMessage.php';
-
+require_once 'models/http/Request.php';
+require_once 'models/http/Route.php';
+require_once 'models/http/Router.php';
+require_once 'middleware/authenticate.php';
+require_once 'middleware/logRequest.php';
+require_once 'models/http/GETMessage.php';
+require_once 'models/auth/user.php';
 // Require other Routes
 require 'routes/auth.php';
 require 'routes/admin.php';

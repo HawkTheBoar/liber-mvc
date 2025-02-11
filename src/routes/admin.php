@@ -8,7 +8,7 @@ require_once 'middleware/admin_auth.php';
 $router = Router::getInstance();
 
 $router->setBasePath('/admin');
-
-$router->get('/dashboard', 'admin_auth', function($params, $next) use ($view) {
+$view = new View();
+$router->get('', 'admin_auth', function($params, $next) use ($view) {
     $view->render('admin/dashboard');
 });

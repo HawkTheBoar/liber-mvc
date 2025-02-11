@@ -1,4 +1,10 @@
 <?php
+function getFromPostOrThrowError($key){
+    if(!isset($_POST[$key])){
+        throw new Exception("Missing $key in POST request");
+    }
+    return $_POST[$key];
+}
 function sanitizeUserInput($input) {
     if (is_array($input)) {
         // Recursively sanitize array inputs
