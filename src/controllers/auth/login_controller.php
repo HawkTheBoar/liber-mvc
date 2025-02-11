@@ -8,12 +8,21 @@ function login_controller($params, $next) {
     } catch(Exception $e){
         $router->redirect(
             '/auth/login',
-            200,
+            400,
             new GetMessage('error', $e->getMessage())
         );
     }
     $user = new User($email);
-    $res = $user->Authenticate($password);
+    try{
+        $res = $user->Authenticate($password);
+    }
+    catch(Exception $e){
+        $router->redirect(
+            '/auth/login',
+            400,
+            new GetMessage('error', $e->getMessage())
+        );
+    }
     if($res) {
         $user->Login();
         $router->redirect('/admin', 200, new GetMessage('success', 'You have been logged in'));

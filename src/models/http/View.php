@@ -18,6 +18,7 @@ class View{
             return;
         }
         extract($params);
+        include_once 'views/components/head.php';
         include $view;
     }
 }

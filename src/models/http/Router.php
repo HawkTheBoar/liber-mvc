@@ -1,4 +1,5 @@
 <?php
+require_once 'models/http/View.php';
 class Router {
     private array $routes = [];
     private static $router;
@@ -25,7 +26,12 @@ class Router {
     public function addRoute(string $method, string $path, array $handlers): void {
         self::$router->routes[] = new Route($method, self::$router->base_path . $path, $handlers);
     }
-
+    public function patch(string $path, ...$handlers): void {
+        self::$router->addRoute('PATCH', $path, $handlers);
+    }
+    public function delete(string $path, ...$handlers): void {
+        self::$router->addRoute('DELETE', $path, $handlers);
+    }
     public function get(string $path, ...$handlers): void {
         self::$router->addRoute('GET', $path, $handlers);
     }
@@ -48,7 +54,8 @@ class Router {
 
         // If no route matches, return a 404 response
         http_response_code(404);
-        echo "404 Not Found";
+        $view = new View();
+        $view->render('404');
     }
 
     private function handleMiddleware(array $handlers, array $parameters): void {

@@ -1,4 +1,3 @@
-<?php include_once 'views/components/head.php'; ?>
 <body>
     <?php 
         if(isset($success)) {
