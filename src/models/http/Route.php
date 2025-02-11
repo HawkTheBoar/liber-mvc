@@ -17,8 +17,11 @@ class Route {
 
         // Simple pattern matching (support dynamic segments like /user/{id})
         $pattern = preg_replace('/\{[^\/]+\}/', '([^\/]+)', $this->path);
-        $pattern = "#^{$pattern}$#";
 
+        // Make trailing slash optional
+        $pattern = rtrim($pattern, '/') . '(/)?'; // Add optional slash
+        $pattern = "#^{$pattern}$#";
+ 
         return preg_match($pattern, $uri);
     }
 
@@ -27,14 +30,26 @@ class Route {
     }
 
     public function extractParameters(string $uri): array {
+        // Match dynamic segments in the path pattern (e.g., {id}, {name})
+        preg_match_all('/\{([^\/]+)\}/', $this->path, $parameterNames);
+    
+        // Replace dynamic segments with regular expression capture groups
         $pattern = preg_replace('/\{[^\/]+\}/', '([^\/]+)', $this->path);
-        $pattern = "#^{$pattern}$#";
-
+        $pattern = "#^{$pattern}$#"; // Add start and end anchors
+    
+        // Check if the URI matches the pattern
         if (preg_match($pattern, $uri, $matches)) {
             array_shift($matches); // Remove the full match
-            return $matches;
+            
+            // Create an associative array to store parameters by their name
+            $params = [];
+            foreach ($parameterNames[1] as $index => $paramName) {
+                $params[$paramName] = $matches[$index];
+            }
+    
+            return $params;
         }
-
+    
         return [];
-    }
+    }    
 }
