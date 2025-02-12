@@ -1,49 +1,70 @@
 {
     "users": {
         "name": "users",
+        "form_skip_fields": ["is_deleted", "id"],
         "fields" : [
             
             {
                 "name": "id",
                 "type": "int",
                 "autoIncrement": true,
+                "required":   true,
                 "primaryKey": true
             },
             {
+                "name": "role",
+                "type": "enum",
+                "required":   true,
+                "values": ["admin", "user"]
+            },
+            {
                 "name": "username",
+                "required":   true,
                 "type": "text"
             },
             {
                 "name": "email",
+                "required":   true,
                 "type": "text"
             },
             {
                 "name": "password",
-                "type": "text",
+                "required":   true,
+                "type": "password",
                 "hash": true
-            }                
+            },
+            {
+                "name": "is_deleted",
+                "required": false,
+                "type": "boolean"
+            }     
             
         ]
     },
     "categories": {
         "name": "categories",
+        "form_skip_fields": ["is_deleted", "id"],
         "fields": [
             {
                 "name": "id",
                 "type": "int",
-                "primaryKey": true
+                "primaryKey": true,
+                "required":   true
             },
             {
                 "name": "name",
+                "required":   true,
                 "type": "text"
             },
             {
                 "name": "description",
+                "required":   true,
                 "type": "text"
             },
             {
                 "name": "parent_id",
                 "type": "relation",
+                "required": false,
                 "relation": {
                     "table": "categories",
                     "field": "id"
@@ -51,32 +72,39 @@
             },
             {
                 "name": "is_deleted",
+                "required": false,
                 "type": "boolean"
             }
         ]
     },
     "products": {
         "name": "products",
+        "form_skip_fields": ["is_deleted", "id"],
         "fields": [
             {
                 "name": "id",
+                "required":   true,
                 "type": "int",
                 "primaryKey": true
             },
             {
                 "name": "name",
+                "required":   true,
                 "type": "text"
             },
             {
                 "name": "description",
+                "required":   true,
                 "type": "text"
             },
             {
                 "name": "price",
+                "required":   true,
                 "type": "number"
             },
             {
                 "name": "category_id",
+                "required":   true,
                 "type": "relation",
                 "relation": {
                     "table": "categories",
@@ -85,7 +113,8 @@
             },
             {
                 "name": "is_deleted",
-                "type": "boolean"
+                "type": "boolean",
+                "required": false
             }
         ]
     }

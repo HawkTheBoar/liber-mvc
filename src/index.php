@@ -9,6 +9,7 @@ require_once 'models/auth/user.php';
 // Require other Routes
 require 'routes/auth.php';
 require 'routes/admin.php';
+// UserFactory::CreateAdmin('admin', 'admin@gmail.com', 'admin');
 // Create a new Router instance
 $router = Router::getInstance();
 
