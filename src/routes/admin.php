@@ -9,6 +9,7 @@ require_once 'middleware/check_table_exists.php';
 require_once 'models/pdoconnect.php';
 require_once 'utils/helpers.php';
 require_once 'controllers/admin/delete_controller.php';
+require_once 'controllers/admin/add/add_users_controller.php';
 require_once 'models/admin/table.php';
 require_once 'models/admin/field.php';
 
@@ -30,3 +31,4 @@ $router->get('/add/{table}', 'check_table_exists', 'admin_auth', function($param
     $table = new Table($table_name);
     $view->render('admin/add', ['fields' => $table->fields]);
 });
+$router->post('/add/users', 'admin_auth', 'add_users_controller');

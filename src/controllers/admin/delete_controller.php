@@ -6,7 +6,7 @@ function delete_controller($params, $next) {
     $id = $params['id'];
     $pdo = pdoconnect::getInstance();
 
-    $query = "DELETE FROM $table WHERE id = ?";
+    $query = "UPDATE $table SET is_deleted = true WHERE id = ?";
     $stmt = $pdo->prepare($query);
     $stmt->execute([$id]);
     // get the number of affected rows
