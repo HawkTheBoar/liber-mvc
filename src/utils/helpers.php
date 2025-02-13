@@ -31,8 +31,3 @@ function loadJson(string $path){
     $config = json_decode($config, true);
     return $config;
 }
-function start_session_if_not_started(){
-    if(session_status() === PHP_SESSION_NONE){
-        session_start();
-    }
-}

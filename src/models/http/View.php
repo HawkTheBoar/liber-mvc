@@ -1,5 +1,5 @@
 <?php
-
+require_once 'views/components/navbar.php';
 class View{
     private string $viewPath;
 
@@ -17,7 +17,9 @@ class View{
             echo "View does not exist";
             return;
         }
+        
         extract($params);
+        extract($navbar);
         include_once 'views/components/head.php';
         include $view;
     }
