@@ -20,19 +20,19 @@ class Table{
             }
             switch($field['type']){
                 case 'password':
-                    $this->fields[] = new PasswordField($field['name'], $field['type'], $field['hash'], $field['required']);
+                    $this->fields[] = new PasswordField($field['name'], $field['type'], $field['hash'], $field['required'], $field['unique']);
                     break;
                 case 'enum':
-                    $this->fields[] = new EnumField($field['name'], $field['type'], $field['required'], $field['values']);
+                    $this->fields[] = new EnumField($field['name'], $field['type'], $field['required'], $field['unique'], $field['values']);
                     break;
                 case 'relation':
-                    $this->fields[] = new RelationField($field['name'], $field['type'], $field['required'], $field['relation']['table'], $field['relation']['field']);
+                    $this->fields[] = new RelationField($field['name'], $field['type'], $field['required'], $field['unique'], $field['relation']['table'], $field['relation']['field']);
                     break;
                 case 'boolean':
-                    $this->fields[] = new BooleanField($field['name'], $field['type'], $field['required']);
+                    $this->fields[] = new BooleanField($field['name'], $field['type'], $field['required'], $field['unique']);
                     break;
                 default:
-                    $this->fields[] = new Field($field['name'], $field['type'], $field['required']);
+                    $this->fields[] = new Field($field['name'], $field['type'], $field['required'], $field['unique']);
             }
         }
 

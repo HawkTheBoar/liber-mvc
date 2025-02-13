@@ -5,14 +5,19 @@ class Field{
     public $type;
     public $required;
     public $default_value;
-    public function __construct($name, $type, $required, $default_value = null){
+    public $unique;
+    public function __construct($name, $type, $required, $unique = false, $default_value = null){
         $this->name = $name;
         $this->type = $type;
         $this->required = $required;
         $this->default_value = $default_value;
+        $this->unique = $unique;
     }
     public function render(){
         echo "<input type='$this->type' name='$this->name' required='$this->required' value='$this->default_value'>";
+    }
+    public function isRequired(): bool{
+        return $this->required;
     }
 }
 class NoRenderField extends Field{
@@ -22,8 +27,8 @@ class NoRenderField extends Field{
 }
 class HiddenField extends Field{
     public $value;
-    public function __construct($name, $type, $required, $value){
-        parent::__construct($name, $type, $required, $value);
+    public function __construct($name, $type, $required, $unique, $value){
+        parent::__construct($name, $type, $required, $unique, default_value: $value);
     }
     public function render(){
         echo "<input type='hidden' value='$this->value' name='$this->name' required='$this->required' value='$this->default_value'>";
@@ -36,8 +41,8 @@ class AutoField extends Field{
 }
 class PasswordField extends Field{
     public $hash;
-    public function __construct($name, $type, $hash, $required){
-        parent::__construct($name, $type, $required);
+    public function __construct($name, $type, $hash, $required, $unique = false){
+        parent::__construct($name, $type, $required, $unique);
         $this->hash = $hash;
     }
     public function render(){
@@ -46,8 +51,8 @@ class PasswordField extends Field{
 }
 class EnumField extends Field{
     public $options;
-    public function __construct($name, $type, $required, $options){
-        parent::__construct($name, $type, $required);
+    public function __construct($name, $type, $required, $unique, $options ){
+        parent::__construct($name, $type, $required, $unique);
         $this->options = $options;
     }
     public function render(){
@@ -62,8 +67,8 @@ class EnumField extends Field{
 class RelationField extends Field{
     public $table;
     public $field;
-    public function __construct($name, $type, $required, $table, $field){
-        parent::__construct($name, $type, $required);
+    public function __construct($name, $type, $required, $unique, $table, $field){
+        parent::__construct($name, $type, $required, $unique);
         $this->table = $table;
         $this->field = $field;
     }
@@ -74,6 +79,8 @@ class RelationField extends Field{
         $stmt->execute();
         $rows = $stmt->fetchAll();
         $html = "<select name='$this->name' required='$this->required'>";
+        if(!$this->isRequired())
+            $html .= "<option value='NULL'>NULL</option>";
         foreach($rows as $row){
             $relation_field = $row[$this->field];
             $name = $row['name'];
