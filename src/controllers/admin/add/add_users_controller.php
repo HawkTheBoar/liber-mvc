@@ -26,10 +26,21 @@ function add_users_controller(){
     }
     switch($post_values['role']){
         case 'admin':
-            UserFactory::CreateAdmin($post_values['email'], $post_values['password'], $post_values['username']);
+            try{
+                UserFactory::CreateAdmin($post_values['email'], $post_values['password'], $post_values['username']);
+
+            } catch(Exception $e){
+                $router->redirect('/admin/add/users', 400, new GetMessage('error', $e->getMessage()));
+                return;
+            }
             break;
         case 'user':
-            UserFactory::CreateUser($post_values['email'], $post_values['password'], $post_values['username']);
+            try{
+                UserFactory::CreateUser($post_values['email'], $post_values['password'], $post_values['username']);
+            } catch(Exception $e){
+                $router->redirect('/admin/add/users', 400, new GetMessage('error',  $e->getMessage()));
+                return;
+            }
             break;
     }
     $router->redirect('/admin', 200, new GetMessage('success', 'User added successfully'));

@@ -22,7 +22,8 @@ $view = new View();
 
 
 $router->get('/', 'admin_auth', function($params, $next) use ($view) {
-    $view->render('admin/dashboard');
+    $tables = Table::getAllTables();
+    $view->render('admin/dashboard', ['tables' => $tables]);
 });
 
 $router->get('/delete/{table}/{id}', 'check_table_exists', 'admin_auth', 'delete_controller');
@@ -30,7 +31,7 @@ $router->get('/delete/{table}/{id}', 'check_table_exists', 'admin_auth', 'delete
 $router->get('/add/{table}', 'check_table_exists', 'admin_auth', function($params, $next) use ($view) {
     $table_name = $params['table'];
     $table = new Table($table_name);
-    $view->render('admin/add', ['fields' => $table->fields]);
+    $view->render('admin/add', ['fields' => $table->fields, 'table_name' => $table_name]);
 });
 $router->post('/add/{table}', 'check_table_exists' ,'admin_auth', 'add_general_controller');
 $router->post('/add/users', 'admin_auth', 'add_users_controller');

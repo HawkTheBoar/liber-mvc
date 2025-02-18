@@ -74,7 +74,7 @@ class RelationField extends Field{
     }
     public function render(){
         $pdo = pdoconnect::getInstance();
-        $query = "SELECT * FROM $this->table";
+        $query = "SELECT * FROM $this->table where is_deleted = false";
         $stmt = $pdo->prepare($query);
         $stmt->execute();
         $rows = $stmt->fetchAll();

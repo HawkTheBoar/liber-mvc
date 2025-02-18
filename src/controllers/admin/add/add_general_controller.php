@@ -20,7 +20,7 @@ function add_general_controller($params, $next) {
             }
             if($field->unique){
                 $pdo = pdoconnect::getInstance();
-                $stmt = $pdo->prepare("SELECT * FROM $table_name WHERE " . $field->name . " = ?");
+                $stmt = $pdo->prepare("SELECT * FROM $table_name WHERE " . $field->name . " = ? AND is_deleted = false");
                 $stmt->execute([$postVal]);
                 $result = $stmt->fetch();
                 if($result){

@@ -1,5 +1,5 @@
-+ add integrity checks to userfactory
++ add integrity checks to userfactory - done
 + add the product and category pages (pretty easy)
 + check if deleting works
-+ make a route and controller for inserting values into general tables
++ make a route and controller for inserting values into general tables - done
 + make a quick dashboard

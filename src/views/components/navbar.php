@@ -1,22 +1,22 @@
 <?php
 class Navbar{
-    public static function get_admin(){
-        $user = User::GetUserFromSession();
-        return (
-            "
-            <nav class='h-[10vh] w-full bg-gray-800 text-white flex justify-between items-center p-4 px-12'>
-                <div><a href='/admin'>Admin Panel</a></div>
-                <div class='flex gap-x-8'>
-                    <div><a href=''>Hello, " .  $user->getUsername() ?? 'unauthenticated user' . " .</a></div>        
-                    <div><a href='/auth/logout'>Log out</a></div>        
-                </div>
-            </nav>
-            "
-
-        );
-        
+    static function get_admin(): string{
+        return "<nav>
+        <a href='/admin'>Dashboard</a>
+        <a href='/auth/logout'>Logout</a>
+        </nav>";
     }
-    
+    static function get_user(): string{
+        return "<nav>
+        <a href='/user/dashboard'>Dashboard</a>
+        <a href='/user/logout'>Logout</a>
+        </nav>";
+    }
+    static function get_unauthenticated(): string{
+        return "<nav>
+        <a href='/login'>Login</a>
+        <a href='/register'>Register</a>
+        </nav>";
+    }
 }
 ?>
-

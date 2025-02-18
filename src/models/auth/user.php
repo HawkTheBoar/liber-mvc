@@ -60,7 +60,7 @@ class User{
         if(self::$pdo === null){
             self::$pdo = pdoconnect::getInstance();
         }
-
+        
         preg_match('/[a-zA-Z0-9_]+@[a-zA-Z0-9_]+\.[a-zA-Z0-9_]+/', $this->email, $matches);
         if(count($matches) === 0){
             throw new InvalidArgumentException('Invalid email format');
@@ -73,7 +73,10 @@ class User{
         if($res === false){
             return false;
         }
-
+        // if is deleted
+        if($res['is_deleted']){
+            return false;
+        }
         $result = password_verify($password, $res['password']);
         if($result){
             $this->isAuthenticated = true;
@@ -101,6 +104,15 @@ class UserFactory{
         if(self::$pdo === null){
             self::$pdo = pdoconnect::getInstance();
         }
+        // Check user exists by email
+        $stmt = self::$pdo->prepare("SELECT * FROM users WHERE email = ? AND is_deleted = false");
+        $stmt->bindParam(1, $email);
+        $stmt->execute();
+        $res = $stmt->fetch();
+        if($res !== false){
+            throw new InvalidArgumentException('User already exists');
+        }
+        // Create the user in the database
         $stmt = self::$pdo->prepare("INSERT INTO users (username, email, password, role) VALUES (?, ?, ?, ?)");
         $hash = gen_hash($password);
         $stmt->bindParam(1, $username);
@@ -111,7 +123,7 @@ class UserFactory{
         $user = new AuthenticatedUser($username, $email, $role);
         return $user;
     }
-    public static function CreateAdmin(string $username, string $email, string $password): User{
+    public static function CreateAdmin(string $username, string $email, string $password): User | AuthenticatedUser{
         return self::CreateUser($username, $email, $password, 'admin');
     }
 }

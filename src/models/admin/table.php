@@ -10,6 +10,25 @@ class Table{
         $this->fields = [];
         $this->setFields();
     }
+    public static function getAllTables(){
+        $schema = loadJson('db_schema.json');
+        $keys = array_keys($schema);
+        return array_map(function($key){
+            return new Table($key);
+        }, $keys);
+    }
+    public function getFieldNames(){
+        return array_map(function($field){
+            return $field->name;
+        }, $this->fields);
+    }
+    public function fetchFields(){
+        $pdo = pdoconnect::getInstance();
+        $sql = "SELECT " . implode(", ", array_merge($this->getFieldNames(), ["id", "is_deleted"])) . " FROM $this->name ORDER BY is_deleted ASC";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll();
+    }
     public function setFields(){
         $schema = loadJson('db_schema.json');
         $fields = $schema[$this->name]['fields'];
