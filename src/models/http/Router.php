@@ -57,7 +57,11 @@ class Router {
         $view = new View();
         $view->render('404');
     }
-
+    public function notFound(){
+        http_response_code(404);
+        $view = new View();
+        $view->render('404');
+    }
     private function handleMiddleware(array $handlers, array $parameters): void {
         self::sanitizeParameters($parameters);
         $next = function() use (&$handlers, $parameters, &$next) {

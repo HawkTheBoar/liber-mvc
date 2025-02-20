@@ -12,6 +12,7 @@ require_once 'models/http/GETMessage.php';
 // Require other Routes
 require 'routes/auth.php';
 require 'routes/admin.php';
+require 'routes/catalog.php';
 // UserFactory::CreateAdmin('admin', 'admin@gmail.com', 'admin');
 // Create a new Router instance
 $router = Router::getInstance();

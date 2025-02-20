@@ -1,7 +1,7 @@
 {
     "users": {
         "name": "users",
-        "form_skip_fields": ["is_deleted", "id"],
+        "form_skip_fields": ["is_deleted"],
         "fields" : [
             
             {
@@ -49,7 +49,7 @@
     },
     "categories": {
         "name": "categories",
-        "form_skip_fields": ["is_deleted", "id"],
+        "form_skip_fields": ["is_deleted"],
         "fields": [
             {
                 "name": "id",
@@ -72,7 +72,7 @@
             {
                 "name": "parent_id",
                 "type": "relation",
-                "required": true,
+                "required": false,
                 "unique": false,
                 "relation": {
                     "table": "categories",

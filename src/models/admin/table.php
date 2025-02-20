@@ -24,7 +24,7 @@ class Table{
     }
     public function fetchFields(){
         $pdo = pdoconnect::getInstance();
-        $sql = "SELECT " . implode(", ", array_merge($this->getFieldNames(), ["id", "is_deleted"])) . " FROM $this->name ORDER BY is_deleted ASC";
+        $sql = "SELECT " . implode(", ", array_merge($this->getFieldNames(), ["is_deleted"])) . " FROM $this->name ORDER BY is_deleted ASC";
         $stmt = $pdo->prepare($sql);
         $stmt->execute();
         return $stmt->fetchAll();
